@@ -2,7 +2,7 @@
   <div id="app">
     <main>
       <div class="search-box">
-        <input type="text" class="search-bar" placeholder="Search..."/>
+        <input type="text" class="search-bar" placeholder="Search..." @keypress="fetchWeather" v-model="query"/>
       </div>
 
       
@@ -28,7 +28,7 @@ export default {
   name: 'App',
   data () {
     return {
-      query: 'Los Angeles',
+      query: '',
       weather: {}
     }
   },
@@ -39,16 +39,13 @@ export default {
         .then(res => {
           return res.json()
         })
-        .then(res => {console.log(res)})
+        .then(this.setResults)
       }
+    },
+    setResults(result){
+      this.weather = result
+      console.log(this.weather)
     }
-  },
-  mounted() {
-    fetch(`${process.env.VUE_APP_URL}weather?q=${this.query}&units=metric&APPID=${process.env.VUE_APP_API}`)
-        .then(res => {
-          return res.json()
-        })
-        .then(res => {console.log(res)})
   }
 }
 </script>
